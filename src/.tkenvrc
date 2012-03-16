@@ -1,0 +1,3 @@
+# Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "k_ary_n_mesh" "k_ary_n_mesh" "2" "565x338+66+66:normal"
+
