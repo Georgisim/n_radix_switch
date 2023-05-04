@@ -26,7 +26,8 @@ packet Flit
     int VcId;
     
     // internal communication
-	int output_port;    
+    int output_port;
+    
     // debug and verification
     int source; // max dimentions
     int  hops_count;
