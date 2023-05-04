@@ -33,7 +33,7 @@ Host::~Host()
 
 void Host::initialize()
 {
-	double channel_rate;
+    double channel_rate;
 
     dim = pow(par("n").longValue(), par("k").longValue());
     self_address = par("self_address").longValue();
@@ -86,9 +86,6 @@ void Host::finish()
 	EV << "host[" << self_address <<  "] total_flits_sent:     " << total_flits_sent << endl;
 	EV << "host[" << self_address <<  "] total_flits_received: " << total_flits_received << endl;
 	EV << "host[" << self_address <<  "] total_latency:          " << total_latency << endl;
-// EV << "HOST "<< self_address << "THROUGHPUT = " << ktroughput <<endl;
-	//EV << "host[" << self_address <<  "] total_flits_sent:       " << total_flits_sent << endl;
-	//EV << "host[" << self_address <<  "] total_flits_received:   " << total_flits_received << endl;
 
 	Latency.record();
 
@@ -264,10 +261,6 @@ void Host::handleCreditMessage(Credit* pCredit)
 			tx_timestamp += flit_duration;
 			break;
 		}
-
-		// EV << "host[" << self_address <<  "]" << " tx_time = " << tx_timestamp * 1000 << endl;
-		// EV << "host[" << self_address <<  "]" << " simtime = " << simTime() * 1000 << endl;
-		//ASSERT(tx_timestamp <= simTime());
 	};
 }
 
@@ -292,8 +285,6 @@ void Host::handleFlitMessage(Flit *pFlit)
 {
 	simtime_t packet_latency;
 
-	// EV << "Host::handleFlitMessage  dest=" << pFlit->getDestination() << ", self_address=" << self_address << endl;
-
 	switch(pFlit->getKind()) {
 	case FLIT_HEAD:
 		ASSERT(pFlit->getDestination() == self_address);
@@ -317,17 +308,14 @@ void Host::handleFlitMessage(Flit *pFlit)
 		total_latency += packet_latency;
 		Latency.collect(packet_latency);
 		total_packets_received ++;
-//		throughput += total_packets_received;
-//		Throughput.collect(throughput/simTime());
-		// EV << "host[" << self_address <<  "]" << " curret_latency = " << (simTime() - head_timestamp) * 1000 << endl;
-		// EV << "host[" << self_address <<  "]" <<" total_latency = " << total_latency * 1000 << endl;
+
 		break;
 	}
 
 	rx_flit_kind = pFlit->getKind();
 
 	total_flits_received++;
-//	total_packets_received = total_flits_received / packet_size;
+
 	delete pFlit;
 
 	Credit *pCredit = new Credit("credit");
