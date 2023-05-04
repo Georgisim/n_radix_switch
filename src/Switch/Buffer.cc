@@ -48,9 +48,7 @@ void Buffer::initialize()
 
 void Buffer::finish()
 {
-
 	cancelAndDelete(timerMessage);
-//	delete queue;
 }
 
 void Buffer::UpdateDisplay(int count)
@@ -60,10 +58,12 @@ void Buffer::UpdateDisplay(int count)
 	cDisplayString dispStr = getDisplayString();
 	sprintf(buffer, "%d flits", count);
 	dispStr.setTagArg("t", 0, buffer);
+	
 	if(count == BufferLengh) {
 		dispStr.setTagArg("i2", 0, "status/busy");
 		dispStr.setTagArg("i", 1, "red");
 	}
+	
 	setDisplayString(dispStr);
 }
 
@@ -96,8 +96,6 @@ void Buffer::handleControlMessage(Control *pControl)
 		ASSERT(0);
 	}
 
-
-
 	delete pControl;
 }
 
@@ -128,7 +126,8 @@ void Buffer::handleTimerMessage(cMessage *msg)
 				send(pControl, "out_ctl");
 			}
 			break;
-			case FLIT_PAYLOAD: {
+
+		case FLIT_PAYLOAD: {
 				Control *pControl = new Control("CTL_REQ_SW");
 				pControl->setKind(CTL_REQ_SW);
 				pControl->setVcId(currnt_channel.vc);
@@ -136,6 +135,7 @@ void Buffer::handleTimerMessage(cMessage *msg)
 				send(pControl, "out_ctl");
 			}
 			break;
+
 		case FLIT_TAIL: {
 				Control *pControl = new Control("CTL_RELEASE_VC");
 				pControl->setKind(CTL_RELEASE_VC);
@@ -156,14 +156,14 @@ void Buffer::handleFlitMessage(Flit *pFlit)
 	UpdateDisplay(queue[vc].getLength());
 
 	queue[vc].insert(pFlit);
-	// EV << "queue len=" << queue[vc].getLength() << " max len=" << BufferLengh << endl;
+
 	ASSERT(queue[vc].getLength() <= BufferLengh);
 
 	if(!has_shcheduled_timer) {
 		has_shcheduled_timer = true;
 		scheduleAt(simTime(), timerMessage);
 	}
-	// debug
+
 }
 
 void Buffer::handleMessage(cMessage *msg)
