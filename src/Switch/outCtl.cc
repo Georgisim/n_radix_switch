@@ -48,18 +48,12 @@ void outCtl::initialize()
 }
 
 void outCtl::finish()
-{/*
-	for (int port= 0; port < nports; port++) {
-		delete out_state_vector[port];
-	}
-	delete out_state_vector;
-*/
+{
+
 }
 
 void outCtl::handleTimerMessage(cMessage *msg)
 {
-
-
 
 }
 
@@ -72,8 +66,6 @@ void outCtl::handleControlMessage(Control *pControl)
 	int in_port = pControl->getArrivalGate()->getIndex();
 	OutputStateVector_t *state = &out_state_vector[out_port][vc];
 	Control *pCtlCrant;
-
-//	EV << "vc=" << vc << ", out_port="  << out_port << ", in_port=" << in_port << endl;
 
 	if(state->CreditCount == 0) {
 		delete pControl;
@@ -125,6 +117,7 @@ void outCtl::handleControlMessage(Control *pControl)
 			}
 			break;
 	}
+	
 	delete pControl;
 }
 
@@ -134,7 +127,6 @@ void outCtl::handleCreditMessage(Credit *pCredit)
 	int vc = nvcs * pCredit->getVcId();
 	int port = pCredit->getArrivalGate()->getIndex();
 
-	// EV << "Got " << pCredit->getCredits() << " Credits" << endl;
 	out_state_vector[port][vc].CreditCount+= pCredit->getCredits();
 
 	delete pCredit;
