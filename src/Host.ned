@@ -18,9 +18,9 @@
 simple Host
 {
     parameters:
-		int self_address;
-		int n;
-		int k;
+	int self_address;
+	int n;
+	int k;
 		        
         string TrafficPattern = default("Uniform");
         volatile int PacketRate = default(exponential(100));
@@ -33,7 +33,6 @@ simple Host
         //@display("p=,,m,$dim;i=device/cpu,black;b=40,40,rect,white,black,1");
 
     gates:
-    //    inout stat_ctl;
         input in;
         output out;
         
